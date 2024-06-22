@@ -1,10 +1,19 @@
+import { config } from "dotenv";
+config()
+
 import express from "express";
+import connectDB from "./connectDB";
 
 const app = express();
-const port = 8000;
+const {PORT: port = 3000 }= process.env;
 
-app.get("/info", (req, res) => {
-  res.json({ message: "hello from server." });
-});
+const main = async () =>{
+  app.get("/info", (req, res) => {
+    res.json({ message: "hello from server." });
+  });
 
-app.listen(port, () => console.log(`Server listening on port ${port}.`));
+  await connectDB()
+  app.listen(port, () => console.log(`Server listening on port ${port}.`));  
+}
+
+main()
